@@ -18,7 +18,21 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true
+    required: true,
+    enum: [
+      'Fruits',
+      'Vegetables',
+      'Grains',
+      'Spices',
+      'Dairy',
+      'Meat',
+      'Seafood',
+      'Beverages',
+      'Handicrafts',
+      'Textiles',
+      'Industrial Goods',
+      'Other'
+    ]
   },
   pricePerUnit: {
     type: Number,
