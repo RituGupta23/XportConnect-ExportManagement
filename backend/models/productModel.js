@@ -46,11 +46,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  images: [
-    {
-      type: String // URLs of product images
-    }
-  ],
+  image: {
+      type: String, // URLs of product images
+      required: true
+  },
   originCountry: {
     type: String,
     required: true
