@@ -33,14 +33,26 @@ const createOrder = async (req, res) => {
 };
 
 const getOrdersForBuyer = async (req, res) => {
-  const orders = await Order.find({ buyer: req.user._id }).populate('products.product exporter');
-  res.json({ success: true, data: orders });
+  try {
+    const buyerId = req.user._id; // set in auth middleware
+    const orders = await Order.find({ buyer: buyerId }).populate('exporter shipper');
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch orders for buyer' });
+  }
 };
 
+
 const getOrdersForExporter = async (req, res) => {
-  const orders = await Order.find({ exporter: req.user._id }).populate('products.product buyer');
-  res.json({ success: true, data: orders });
+  try {
+    const exporterId = req.user._id;
+    const orders = await Order.find({ exporter: exporterId }).populate('buyer shipper');
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch orders for exporter' });
+  }
 };
+
 
 const assignShipper = async (req, res) => {
   try {
@@ -80,7 +92,7 @@ const updateOrderStatus = async (req, res) => {
   res.json({ success: true, message: 'Order updated', data: order });
 };
 
-model.exports = {
+module.exports = {
     createOrder,
     getOrdersForBuyer,
     getOrdersForExporter,
