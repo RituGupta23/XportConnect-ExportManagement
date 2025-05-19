@@ -6,15 +6,22 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes.js');
 const orderRoutes = require('./routes/orderRoutes.js');
 const shippingRoutes = require('./routes/shippingRoutes.js');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
 app.use(express.json()); // For parsing JSON data
 
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('api/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);
 app.use('/api/shipping', shippingRoutes);
 
 connectDB();
