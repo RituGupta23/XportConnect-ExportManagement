@@ -55,17 +55,40 @@ const getProductById = async (req, res) => {
 // Update product
 const updateProduct = async (req, res) => {
   try {
+    // Parse fields from body or fallback to req.body (for JSON)
+    const updates = {
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      pricePerUnit: req.body.pricePerUnit || req.body.price, // adjust for frontend
+      unit: req.body.unit,
+      availableQuantity: req.body.availableQuantity,
+      originCountry: req.body.originCountry,
+      certifications: req.body.certifications,
+    };
+
+    // If file is uploaded
+    if (req.file) {
+      updates.image = req.file.path;
+    }
+
     const product = await Product.findOneAndUpdate(
       { _id: req.params.id, exporter: req.user._id },
-      req.body,
+      { $set: updates },
       { new: true }
     );
-    if (!product) return res.status(404).json({ message: 'Product not found or not authorized' });
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found or not authorized' });
+    }
+
     res.json(product);
   } catch (err) {
+    console.error('Update error:', err);
     res.status(400).json({ message: err.message });
   }
 };
+
 
 // Delete product
 const deleteProduct = async (req, res) => {
