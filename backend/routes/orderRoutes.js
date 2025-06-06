@@ -5,7 +5,8 @@ const {
   getOrdersForBuyer,
   getOrdersForExporter,
   assignShipper,
-  updateOrderStatus
+  updateOrderStatus,
+  getAllShippers
 } = require('../controllers/orderController');
 
 const router = express.Router();
@@ -25,4 +26,6 @@ router.patch('/:orderId/assign-shipper', protect, authorize('exporter'), assignS
 // Exporter order updates status
 router.patch('/:orderId/status', protect, authorize('exporter'), updateOrderStatus);
 
+// Shipper views assigned orders
+router.get('/shipper', protect, authorize('exporter'), getAllShippers);
 module.exports = router;

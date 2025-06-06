@@ -11,6 +11,10 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  shipper: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
   products: [
     {
       product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
@@ -27,15 +31,6 @@ const orderSchema = new mongoose.Schema({
     state: String,
     zip: String,
     country: String
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'],
-    default: 'pending'
-  },
-  assignedShipper: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
   },
   trackingInfo: {
     trackingNumber: String,
