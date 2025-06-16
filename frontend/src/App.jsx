@@ -11,6 +11,7 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import ProductDetails from "./pages/products/ProductDetails"
 import Products from "./pages/products/Products"
+import About from "./pages/About"
 
 // Protected Pages
 import Dashboard from "./pages/dashboard/Dashboard"
@@ -47,6 +48,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="products" element={<Products />} />
         <Route path="products/:id" element={<ProductDetails />} />
+        <Route path="about" element={<About />} />
       </Route>
 
       {/* Protected Routes */}

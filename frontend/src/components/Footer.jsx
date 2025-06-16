@@ -4,8 +4,8 @@ import { Globe, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } fr
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-100">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div className="container mx-auto px-6 md:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-14 mb-8">
           {/* Brand Section */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2 group">
@@ -62,33 +62,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Services</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/for-exporters" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                  For Exporters
-                </Link>
-              </li>
-              <li>
-                <Link to="/for-buyers" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                  For Buyers
-                </Link>
-              </li>
-              <li>
-                <Link to="/for-shippers" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                  For Shippers
-                </Link>
-              </li>
-              <li>
-                <Link to="/blog" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                  Trade Blog
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Contact Info */}
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Us</h3>
@@ -117,21 +90,10 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-100 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0">
             <p className="text-gray-600 text-sm">
               © {new Date().getFullYear()} XportConnect. All rights reserved.
             </p>
-            <div className="flex space-x-6">
-              <Link to="/privacy" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                Privacy Policy
-              </Link>
-              <Link to="/terms" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                Terms of Service
-              </Link>
-              <Link to="/cookies" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
-                Cookie Policy
-              </Link>
-            </div>
           </div>
         </div>
       </div>

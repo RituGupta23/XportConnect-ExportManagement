@@ -76,9 +76,14 @@ const Navbar = () => {
               Products
             </Link>
             <Link 
-              to="/#about" 
-              className="transition-all duration-200 hover:text-blue-600 text-gray-700 relative py-2"
+              to="/about" 
+              className={`transition-all duration-200 hover:text-blue-600 relative py-2 ${
+                isActive("/about") ? "text-blue-600 font-semibold" : "text-gray-700"
+              }`}
             >
+              {isActive("/about") && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>
+              )}
               About
             </Link>
           </nav>
@@ -170,7 +175,7 @@ const Navbar = () => {
                 Products
               </Link>
               <Link 
-                to="/#about" 
+                to="/about" 
                 className="text-lg font-medium flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 transition-all duration-200 text-gray-700" 
                 onClick={() => setIsOpen(false)}
               >

@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-slate-50 pt-16 pb-20 lg:pt-20 lg:pb-28">
+      <section className="bg-slate-50 pt-6 lg:pt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-6">
@@ -51,20 +51,6 @@ const Home = () => {
               </Button>
             </div>
 
-            <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
-              <div className="flex items-center">
-                <Users className="h-4 w-4 mr-2" />
-                <span>45,000+ Users</span>
-              </div>
-              <div className="flex items-center">
-                <TrendingUp className="h-4 w-4 mr-2" />
-                <span>$1.8B+ Traded</span>
-              </div>
-              <div className="flex items-center">
-                <Heart className="h-4 w-4 mr-2 text-red-500" />
-                <span>98% Satisfaction</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -196,7 +182,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="text-center group">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
                 <Shield className="h-8 w-8 text-blue-600" />
@@ -240,68 +226,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Success Stories */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
-                Real Results from Real Businesses
-              </h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Over the past 4 years, we've helped thousands of businesses expand internationally. 
-                From small family operations to large enterprises, our platform scales with your needs.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="border-l-4 border-blue-500 pl-4">
-                  <p className="text-gray-700 mb-2">
-                    "XportConnect helped us find reliable suppliers in Southeast Asia. Our procurement costs dropped by 30% in the first year."
-                  </p>
-                  <div className="text-sm text-gray-500">— Sarah Chen, Import Manager</div>
-                </div>
-                
-                <div className="border-l-4 border-green-500 pl-4">
-                  <p className="text-gray-700 mb-2">
-                    "As a small exporter, I never thought I could compete globally. Now I'm shipping to 15 countries regularly."
-                  </p>
-                  <div className="text-sm text-gray-500">— Miguel Rodriguez, Coffee Exporter</div>
-                </div>
-              </div>
-              
-              <div className="mt-8">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
-                  <Link to="/success-stories">Read More Stories</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8 text-center">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <div className="text-2xl font-bold text-blue-600 mb-1">45,000+</div>
-                    <div className="text-sm text-gray-600">Active Users</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <div className="text-2xl font-bold text-green-600 mb-1">120+</div>
-                    <div className="text-sm text-gray-600">Countries</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <div className="text-2xl font-bold text-purple-600 mb-1">$1.8B+</div>
-                    <div className="text-sm text-gray-600">Trade Volume</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <div className="text-2xl font-bold text-amber-600 mb-1">98%</div>
-                    <div className="text-sm text-gray-600">Happy Customers</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action */}
       <section className="py-16 lg:py-24 bg-blue-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -309,16 +233,13 @@ const Home = () => {
             Ready to Grow Your Business?
           </h2>
           <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-            Join thousands of businesses already using XportConnect to expand globally. 
+            Join XportConnect to expand globally. <br></br>
             It's free to get started, and you can be trading within days.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-50 font-semibold" asChild>
               <Link to="/register">Create Free Account</Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-blue-700" asChild>
-              <Link to="/demo">Schedule a Demo</Link>
             </Button>
           </div>
           
