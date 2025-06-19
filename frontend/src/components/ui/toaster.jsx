@@ -15,22 +15,16 @@ export function Toaster() {
               <div className="flex-1">
                 {title && (
                   <ToastTitle className={cn(
-                    variant === "success" && "text-cyan-700",
-                    variant === "error" && "text-indigo-700",
-                    variant === "warning" && "text-sky-700",
-                    variant === "info" && "text-violet-700",
-                    variant === "default" && "text-blue-700",
+                    variant === "destructive" && "text-red-700",
+                    variant === "default" && "text-green-700",
                   )}>
                     {title}
                   </ToastTitle>
                 )}
                 {description && (
                   <ToastDescription className={cn(
-                    variant === "success" && "text-cyan-600/90",
-                    variant === "error" && "text-indigo-600/90",
-                    variant === "warning" && "text-sky-600/90",
-                    variant === "info" && "text-violet-600/90",
-                    variant === "default" && "text-blue-600/90",
+                    variant === "destructive" && "text-red-600/90",
+                    variant === "default" && "text-green-600/90",
                   )}>
                     {description}
                   </ToastDescription>

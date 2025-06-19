@@ -43,7 +43,7 @@ const Products = () => {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-3xl p-8 mb-12 shadow-sm">
+          <div className=" rounded-3xl p-8 mb-12 shadow-sm">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="text-center md:text-left">
                 <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
@@ -78,17 +78,17 @@ const Products = () => {
               <p className="text-gray-400 mt-2">Try adjusting your search terms</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {filteredProducts.map((product) => (
-                <Card key={product._id} className="overflow-hidden flex flex-col h-full bg-white hover:shadow-xl transition-all duration-300 rounded-2xl border-0">
-                  <div className="aspect-square overflow-hidden bg-gray-100">
+                <Card key={product._id} className="overflow-hidden flex flex-row lg:h-[330px] bg-white hover:shadow-xl transition-all duration-300 rounded-2xl border-0">
+                  <div className="aspect-square overflow-hidden bg-gray-100 border-r">
                     <img
-                      src={product.image || "/placeholder.svg?height=300&width=300"}
+                      src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
                     />
                   </div>
-                  <CardContent className="flex-grow p-6">
+                  <CardContent className="flex-col items-between p-6">
                     <h2 className="text-xl font-semibold mb-3 line-clamp-1 text-gray-900">{product.name}</h2>
                     <p className="text-gray-600 mb-6 line-clamp-2 text-sm">{product.description}</p>
                     
@@ -125,16 +125,16 @@ const Products = () => {
                           </p>
                         </div>
                       )}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="p-6 pt-0">
-                    <Button 
+
+                       <button
                       asChild 
-                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6"
+                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-2"
                     >
                       <Link to={`/products/${product._id}`}>View Details</Link>
-                    </Button>
-                  </CardFooter>
+                    </button>
+                    </div>
+                   
+                  </CardContent>
                 </Card>
               ))}
             </div>

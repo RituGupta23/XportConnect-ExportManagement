@@ -11,13 +11,25 @@ import {
 } from "../../../components/ui/card";
 import { useToast } from "../../../components/ui/use-toast";
 import { formatCurrency } from "../../../lib/utils";
-import { Loader2, Plus, Pencil, Trash2, Search, Package, Globe, Award, Scale, ArrowRight } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  Pencil,
+  Trash2,
+  Search,
+  Package,
+  Globe,
+  Award,
+  Scale,
+  ArrowRight,
+} from "lucide-react";
 
 const ExporterProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(null);
+  const [pendingDelete, setPendingDelete] = useState(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -41,10 +53,13 @@ const ExporterProducts = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this product?")) {
-      return;
-    }
+  const handleDelete = (id) => {
+    setPendingDelete(id);
+  };
+
+  const confirmDelete = async () => {
+    const id = pendingDelete;
+    if (!id) return;
 
     try {
       setDeleteLoading(id);
@@ -55,7 +70,7 @@ const ExporterProducts = () => {
         description: "Product has been successfully deleted.",
       });
 
-      setProducts(products.filter((product) => product._id !== id));
+      setProducts((prev) => prev.filter((product) => product._id !== id));
     } catch (error) {
       toast({
         variant: "destructive",
@@ -65,8 +80,36 @@ const ExporterProducts = () => {
       });
     } finally {
       setDeleteLoading(null);
+      setPendingDelete(null);
     }
   };
+
+  // const handleDelete = async (id) => {
+  //   if (!confirm("Are you sure you want to delete this product?")) {
+  //     return;
+  //   }
+
+  //   try {
+  //     setDeleteLoading(id);
+  //     await api.delete(`/products/${id}`);
+
+  //     toast({
+  //       title: "Product Deleted",
+  //       description: "Product has been successfully deleted.",
+  //     });
+
+  //     setProducts(products.filter((product) => product._id !== id));
+  //   } catch (error) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Delete Failed",
+  //       description:
+  //         error.response?.data?.message || "Failed to delete product.",
+  //     });
+  //   } finally {
+  //     setDeleteLoading(null);
+  //   }
+  // };
 
   const filteredProducts = products.filter(
     (product) =>
@@ -79,23 +122,22 @@ const ExporterProducts = () => {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-lg border border-white/20">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-              <div>
-                <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
-                  My Products
-                </h1>
-                <p className="text-slate-600 text-lg">Manage your product listings and inventory</p>
-              </div>
-              <Button 
-                onClick={() => navigate("/dashboard/exporter/products/create")}
-                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 px-8 text-lg group"
-              >
-                <Plus className="h-5 w-5 mr-2" />
-                Add New Product
-                <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-blue-600">My Products</h1>
+              <p className="text-slate-600 mt-1">
+                Manage your product listings and inventory
+              </p>
             </div>
+            <Button
+              onClick={() => navigate("/dashboard/exporter/products/create")}
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 px-8 text-lg group"
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              Add New Product
+              <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
 
           {/* Search Section */}
@@ -121,10 +163,16 @@ const ExporterProducts = () => {
             <Card className="bg-white/80 backdrop-blur-sm border-none shadow-lg rounded-3xl">
               <CardContent className="flex flex-col items-center justify-center py-16">
                 <Package className="h-16 w-16 text-slate-400 mb-4" />
-                <p className="text-2xl text-slate-600 mb-4">No products found</p>
-                <p className="text-slate-500 mb-8">Start by adding your first product to your inventory</p>
+                <p className="text-2xl text-slate-600 mb-4">
+                  No products found
+                </p>
+                <p className="text-slate-500 mb-8">
+                  Start by adding your first product to your inventory
+                </p>
                 <Button
-                  onClick={() => navigate("/dashboard/exporter/products/create")}
+                  onClick={() =>
+                    navigate("/dashboard/exporter/products/create")
+                  }
                   className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 px-8 text-lg group"
                 >
                   <Plus className="h-5 w-5 mr-2" />
@@ -136,19 +184,24 @@ const ExporterProducts = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => (
-                <Card key={product._id} className="bg-white/80 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col h-full">
+                <Card
+                  key={product._id}
+                  className="bg-white/80 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col h-full"
+                >
                   <div className="aspect-video overflow-hidden bg-gradient-to-br from-slate-100 to-slate-50">
                     <img
-                      src={product.image || "/placeholder.svg?height=200&width=400"}
+                      src={
+                        product.image || "/placeholder.svg?height=200&width=400"
+                      }
                       alt={product.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-xl font-semibold text-slate-900 line-clamp-1">{product.name}</CardTitle>
-                    <p className="text-sm text-slate-500">
-                      {product.category}
-                    </p>
+                    <CardTitle className="text-xl font-semibold text-slate-900 line-clamp-1">
+                      {product.name}
+                    </CardTitle>
+                    <p className="text-sm text-slate-500">{product.category}</p>
                   </CardHeader>
 
                   <CardContent className="flex-grow space-y-4">
@@ -160,7 +213,8 @@ const ExporterProducts = () => {
                       <div className="flex items-center text-blue-600">
                         <Scale className="h-5 w-5 mr-3" />
                         <p className="text-lg font-semibold">
-                          {formatCurrency(product.pricePerUnit)} / {product.unit}
+                          {formatCurrency(product.pricePerUnit)} /{" "}
+                          {product.unit}
                         </p>
                       </div>
 
@@ -184,7 +238,9 @@ const ExporterProducts = () => {
                         <div className="flex items-center text-slate-600">
                           <Award className="h-5 w-5 mr-3" />
                           <p className="text-sm">
-                            <span className="font-medium">Certifications: </span>
+                            <span className="font-medium">
+                              Certifications:{" "}
+                            </span>
                             {product.certifications.join(", ")}
                           </p>
                         </div>
@@ -192,11 +248,15 @@ const ExporterProducts = () => {
                     </div>
                   </CardContent>
 
-                  <CardFooter className="flex justify-between pt-4 border-t border-slate-100">
+                  <CardFooter className="flex justify-between pt-4 border-t gap-4 border-slate-100">
                     <Button
                       variant="outline"
-                      onClick={() => navigate(`/dashboard/exporter/products/edit/${product._id}`)}
-                      className="border-slate-200 hover:border-blue-200 hover:bg-blue-50 text-slate-700 font-medium rounded-xl py-6 px-6 group"
+                      onClick={() =>
+                        navigate(
+                          `/dashboard/exporter/products/edit/${product._id}`
+                        )
+                      }
+                      className="border-slate-200 hover:border-blue-200 hover:bg-blue-50 text-slate-700 font-medium rounded-xl p-4 group"
                     >
                       <Pencil className="h-5 w-5 mr-2" />
                       Edit
@@ -206,7 +266,7 @@ const ExporterProducts = () => {
                       variant="destructive"
                       onClick={() => handleDelete(product._id)}
                       disabled={deleteLoading === product._id}
-                      className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 px-6"
+                      className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-4"
                     >
                       {deleteLoading === product._id ? (
                         <Loader2 className="h-5 w-5 animate-spin" />
@@ -224,6 +284,34 @@ const ExporterProducts = () => {
           )}
         </div>
       </div>
+      {pendingDelete && (
+        <div className="fixed bottom-6 right-6 z-50 bg-white border border-slate-200 shadow-xl rounded-2xl p-6 w-[320px] space-y-4">
+          <p className="text-slate-800 font-semibold text-base">
+            Are you sure you want to delete this product?
+          </p>
+          <div className="flex justify-end gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setPendingDelete(null)}
+              className="rounded-xl px-4 py-2 text-sm"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              className="rounded-xl px-4 py-2 text-sm"
+              disabled={deleteLoading === pendingDelete}
+            >
+              {deleteLoading === pendingDelete ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Yes, Delete"
+              )}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

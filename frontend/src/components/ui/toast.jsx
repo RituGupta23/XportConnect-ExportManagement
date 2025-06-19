@@ -24,11 +24,8 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-slate-200 bg-gradient-to-r from-slate-50/95 to-blue-50/95 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
-        success: "border-blue-200 bg-gradient-to-r from-blue-50/95 to-cyan-50/95 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
-        error: "border-blue-200 bg-gradient-to-r from-blue-50/95 to-indigo-50/95 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
-        warning: "border-blue-200 bg-gradient-to-r from-blue-50/95 to-sky-50/95 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
-        info: "border-blue-200 bg-gradient-to-r from-blue-50/95 to-violet-50/95 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+        default: "border-green-200 bg-green-50 text-green-800 backdrop-blur-sm shadow-[...]",
+        destructive: "border-red-200 bg-red-50 text-red-800 backdrop-blur-sm shadow-[...]",
       },
     },
     defaultVariants: {
@@ -46,7 +43,7 @@ const ToastAction = React.forwardRef(({ className, ...props }, ref) => (
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
+      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border px-3 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
       className,
     )}
     {...props}
@@ -81,14 +78,8 @@ ToastDescription.displayName = ToastPrimitives.Description.displayName
 
 const ToastIcon = ({ variant }) => {
   switch (variant) {
-    case "success":
-      return <CheckCircle2 className="h-5 w-5 text-cyan-600" />
-    case "error":
-      return <XCircle className="h-5 w-5 text-indigo-600" />
-    case "warning":
-      return <AlertCircle className="h-5 w-5 text-sky-600" />
-    case "info":
-      return <Info className="h-5 w-5 text-violet-600" />
+    case "destructive":
+      return null
     default:
       return null
   }

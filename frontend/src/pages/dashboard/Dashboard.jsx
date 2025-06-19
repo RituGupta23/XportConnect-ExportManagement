@@ -243,10 +243,10 @@ const Dashboard = () => {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col items-center gap-4">
             <Button
               onClick={() => navigate("/dashboard/buyer/orders")}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 text-lg group"
+              className="w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-4 md:w-90 text-lg group"
             >
               <BarChart3 className="h-5 w-5 mr-2" />
               View All Orders
@@ -255,7 +255,7 @@ const Dashboard = () => {
             <Button 
               variant="outline" 
               onClick={() => navigate("/products")}
-              className="border-slate-200 hover:border-blue-200 hover:bg-blue-50 text-slate-700 font-medium rounded-xl py-6 text-lg group"
+              className="border-slate-200 hover:border-blue-200 hover:bg-blue-50 md:w-90 text-slate-700 font-medium rounded-xl py-4 text-lg group"
             >
               <Package className="h-5 w-5 mr-2" />
               Browse Products
@@ -340,7 +340,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto py-12 md:pt-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {user.role === "exporter" && renderExporterDashboard()}
           {user.role === "buyer" && renderBuyerDashboard()}

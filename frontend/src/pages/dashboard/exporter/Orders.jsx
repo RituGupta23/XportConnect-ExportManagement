@@ -9,7 +9,19 @@ import {
 } from "../../../components/ui/card";
 import { useToast } from "../../../components/ui/use-toast";
 import { formatCurrency, formatDate } from "../../../lib/utils";
-import { Loader2, Search, Package, User, Calendar, Truck, ArrowRight, Building2, Globe, Award, Scale } from "lucide-react";
+import {
+  Loader2,
+  Search,
+  Package,
+  User,
+  Calendar,
+  Truck,
+  ArrowRight,
+  Building2,
+  Globe,
+  Award,
+  Scale,
+} from "lucide-react";
 
 const ExporterOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -108,19 +120,19 @@ const ExporterOrders = () => {
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "Pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 border border-yellow-300";
       case "In-Transit":
-        return "bg-blue-100 text-blue-800";
+        return "bg-sky-100 text-sky-800 border border-sky-200";
       case "Out for Delivery":
-        return "bg-purple-100 text-purple-800";
+        return "bg-indigo-100 text-indigo-800 border border-indigo-200";
       case "Delivered":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-800 border border-green-200";
       case "Delayed":
-        return "bg-orange-100 text-orange-800";
+        return "bg-orange-100 text-orange-800 border border-orange-200";
       case "Cancelled":
-        return "bg-red-100 text-red-800";
+        return "bg-red-100 text-red-800 border border-red-200";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 border border-gray-200";
     }
   };
 
@@ -129,20 +141,21 @@ const ExporterOrders = () => {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-lg border border-white/20">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-              <div>
-                <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
-                  Manage Orders
-                </h1>
-                <p className="text-slate-600 text-lg">Track and manage your export orders</p>
-              </div>
-              <div className="flex items-center gap-3 bg-blue-50 px-6 py-3 rounded-2xl">
-                <Building2 className="h-6 w-6 text-blue-600" />
-                <span className="text-blue-700 font-medium">Exporter Dashboard</span>
-              </div>
-            </div>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-blue-600">
+              Manage Orders
+            </h1>
+            <p className="text-slate-600 mt-1">Track and manage your export orders</p>
           </div>
+          <div className="flex items-center gap-3 bg-blue-50 px-6 py-3 rounded-2xl">
+                <Building2 className="h-6 w-6 text-blue-600" />
+                <span className="text-blue-700 font-medium">
+                  Exporter Dashboard
+                </span>
+              </div>
+        </div>
+          
 
           {/* Search Section */}
           <div className="mb-8">
@@ -168,20 +181,27 @@ const ExporterOrders = () => {
               <CardContent className="flex flex-col items-center justify-center py-16">
                 <Package className="h-16 w-16 text-slate-400 mb-4" />
                 <p className="text-2xl text-slate-600 mb-4">No orders found</p>
-                <p className="text-slate-500">Try adjusting your search terms</p>
+                <p className="text-slate-500">
+                  Try adjusting your search terms
+                </p>
               </CardContent>
             </Card>
           ) : (
             <div className="space-y-6">
               {filteredOrders.map((order) => (
-                <Card key={order._id} className="bg-white/80 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden">
+                <Card
+                  key={order._id}
+                  className="bg-white/80 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden"
+                >
                   <CardHeader className="pb-2">
                     <CardTitle className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
                           <Package className="h-5 w-5 text-blue-600" />
                         </div>
-                        <span className="text-xl font-semibold text-slate-900">Order #{order._id.slice(-6)}</span>
+                        <span className="text-xl font-semibold text-slate-900">
+                          Order #{order._id.slice(-6)}
+                        </span>
                       </div>
                       <span
                         className={`px-4 py-2 rounded-xl text-sm font-medium ${getStatusBadgeClass(
@@ -254,7 +274,9 @@ const ExporterOrders = () => {
                             <div className="flex gap-3">
                               <select
                                 className="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/70 backdrop-blur-sm shadow-sm text-lg"
-                                defaultValue={order.trackingInfo.status || `pending`}
+                                defaultValue={
+                                  order.trackingInfo.status || `pending`
+                                }
                               >
                                 <option value="" disabled>
                                   Select a shipper
@@ -267,7 +289,8 @@ const ExporterOrders = () => {
                               </select>
                               <Button
                                 onClick={() => {
-                                  const select = document.querySelector("select");
+                                  const select =
+                                    document.querySelector("select");
                                   const shipperId = select.value;
                                   if (shipperId) {
                                     handleAssignShipper(order._id, shipperId);

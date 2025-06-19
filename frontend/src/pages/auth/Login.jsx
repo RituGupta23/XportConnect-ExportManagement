@@ -3,7 +3,22 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthContext"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
-import { Loader2, Globe, Mail, Lock } from "lucide-react"
+import { Loader2, Globe, User, Building2, Globe2, Mail, Lock } from "lucide-react"
+
+const demoUsers = {
+  buyer: {
+    email: "demobuyer@gmail.com",
+    password: "12345678",
+  },
+  exporter: {
+    email: "demoexporter@gmail.com",
+    password: "12345678",
+  },
+  shipper: {
+    email: "demoshipper@gmail.com",
+    password: "12345678",
+  },
+}
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +37,11 @@ const Login = () => {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }))
     }
+  }
+
+  const handleDemoLogin = (role) => {
+    setFormData(demoUsers[role])
+    setErrors({})
   }
 
   const validateForm = () => {
@@ -59,8 +79,49 @@ const Login = () => {
             Sign in to your XportConnect account
           </CardDescription>
         </CardHeader>
+
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Demo role buttons */}
+          <div className="space-y-4">
+            <div className="text-sm font-medium text-gray-700 text-center">
+              Login as Demo User
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("buyer")}
+                className="p-4 rounded-lg border-2 transition-all duration-200 border-gray-200 hover:border-blue-500 hover:bg-blue-50"
+              >
+                <div className="flex flex-col items-center">
+                  <User className="h-5 w-5 text-gray-600" />
+                  <span className="text-sm font-medium">Buyer</span>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("exporter")}
+                className="p-4 rounded-lg border-2 transition-all duration-200 border-gray-200 hover:border-blue-500 hover:bg-blue-50"
+              >
+                <div className="flex flex-col items-center">
+                  <Building2 className="h-5 w-5 text-gray-600" />
+                  <span className="text-sm font-medium">Exporter</span>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("shipper")}
+                className="p-4 rounded-lg border-2 transition-all duration-200 border-gray-200 hover:border-blue-500 hover:bg-blue-50"
+              >
+                <div className="flex flex-col items-center">
+                  <Globe2 className="h-5 w-5 text-gray-600" />
+                  <span className="text-sm font-medium">Shipper</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Login form */}
+          <form onSubmit={handleSubmit} className="space-y-6 mt-6">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                 <Mail className="h-4 w-4 text-gray-500" />
@@ -99,15 +160,6 @@ const Login = () => {
               {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
             </div>
 
-            <div className="flex items-center justify-end">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
-              >
-                Forgot password?
-              </Link>
-            </div>
-
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-md hover:shadow-xl transition-all duration-300"
@@ -124,6 +176,7 @@ const Login = () => {
             </Button>
           </form>
         </CardContent>
+
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-gray-600">
             Don't have an account?{" "}

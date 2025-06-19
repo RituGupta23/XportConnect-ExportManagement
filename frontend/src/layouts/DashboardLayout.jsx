@@ -9,7 +9,7 @@ const DashboardLayout = () => {
   return (
     <div className="flex h-screen w-full">
       {/* Sidebar */}
-      <aside className="md:w-[250px] bg-white shadow-md border-r border-gray-200">
+      <aside className="md:w-[285px] bg-white shadow-md border-r border-gray-200">
         <Sidebar />
       </aside>
 
@@ -19,7 +19,7 @@ const DashboardLayout = () => {
         <DashboardHeader/>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4">
+        <main className="flex-1 overflow-y-auto bg-gray-50">
           <Outlet />
         </main>
       </div>

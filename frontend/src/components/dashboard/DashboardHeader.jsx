@@ -19,12 +19,11 @@ const DashboardHeader = () => {
   const [showSearch, setShowSearch] = useState(false)
 
   return (
-    <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-sm shadow-sm">
+    <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm shadow-sm">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         {/* Left Section - Logo and Search */}
         <div className="flex items-center gap-4 flex-1">
-          <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700 hidden md:block">
-            Dashboard
+          <h1 className="-ml-4 text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700 hidden md:block">
           </h1>
           
           {/* Search Bar - Responsive */}
@@ -101,9 +100,9 @@ const DashboardHeader = () => {
             <DropdownMenuTrigger asChild>
               <Button 
                 variant="ghost" 
-                className="relative h-9 w-9 rounded-full hover:bg-blue-50 transition-colors"
+                className="relative h-9 w-9 rounded-full hover:bg-blue-500 bg-blue-700 text-white transition-colors"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-white font-medium shadow-sm">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full font-medium shadow-sm">
                   {user?.name?.charAt(0).toUpperCase()}
                 </div>
               </Button>

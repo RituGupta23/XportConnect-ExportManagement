@@ -8,6 +8,7 @@ import { useToast } from "../../components/ui/use-toast";
 import { formatCurrency } from "../../lib/utils";
 import { Loader2, ArrowLeft, Package, Globe, Award, Scale, Truck, Calendar, Building2, User, ShoppingCart } from "lucide-react";
 
+
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,6 +18,14 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [processing, setProcessing] = useState(false);
   const { toast } = useToast();
+
+  const [shippingAddress, setShippingAddress] = useState({
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "",
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,7 +43,6 @@ const ProductDetails = () => {
         setLoading(false);
       }
     };
-
     fetchProduct();
   }, [id, navigate, toast]);
 
@@ -43,6 +51,24 @@ const ProductDetails = () => {
     if (value > 0 && value <= product.availableQuantity) {
       setQuantity(value);
     }
+  };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setShippingAddress((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const isAddressValid = () => {
+    return (
+      shippingAddress.street &&
+      shippingAddress.city &&
+      shippingAddress.state &&
+      shippingAddress.zip &&
+      shippingAddress.country
+    );
   };
 
   const handleOrder = async () => {
@@ -55,12 +81,27 @@ const ProductDetails = () => {
       return;
     }
 
+    if (!isAddressValid()) {
+      toast({
+        variant: "destructive",
+        title: "Missing Address Fields",
+        description: "Please fill in all the shipping address fields.",
+      });
+      return;
+    }
+
     setProcessing(true);
     try {
       await api.post("/orders", {
-        product: product._id,
-        quantity,
+        exporter: product.exporter._id,
+        products: [
+          {
+            product: product._id,
+            quantity: quantity,
+          },
+        ],
         totalAmount: product.pricePerUnit * quantity,
+        shippingAddress: shippingAddress,
       });
 
       toast({
@@ -87,9 +128,7 @@ const ProductDetails = () => {
     );
   }
 
-  if (!product) {
-    return null;
-  }
+  if (!product) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -174,58 +213,79 @@ const ProductDetails = () => {
 
               {/* Order Section */}
               <Card className="bg-white shadow-sm rounded-3xl border-0">
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-semibold mb-6 text-gray-900">Place Order</h2>
-                  <div className="space-y-6">
-                    <div>
-                      <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
-                        Quantity ({product.unit})
-                      </label>
-                      <input
-                        type="number"
-                        id="quantity"
-                        min="1"
-                        max={product.availableQuantity}
-                        value={quantity}
-                        onChange={handleQuantityChange}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
+                <CardContent className="p-8 space-y-6">
+                  <h2 className="text-2xl font-semibold text-gray-900">Place Order</h2>
 
-                    <div className="flex items-center justify-between py-4 border-t border-gray-100">
-                      <span className="text-gray-600 text-lg">Total Amount:</span>
-                      <span className="text-2xl font-bold text-blue-600">
-                        {formatCurrency(product.pricePerUnit * quantity)}
-                      </span>
-                    </div>
-
-                    <Button
-                      onClick={handleOrder}
-                      disabled={processing || !user}
-                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 text-lg"
-                    >
-                      {processing ? (
-                        <>
-                          <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                          Processing...
-                        </>
-                      ) : !user ? (
-                        <>
-                          <ShoppingCart className="h-5 w-5 mr-2" />
-                          Login to Order
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingCart className="h-5 w-5 mr-2" />
-                          Place Order
-                        </>
-                      )}
-                    </Button>
+                  {/* Quantity */}
+                  <div>
+                    <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
+                      Quantity ({product.unit})
+                    </label>
+                    <input
+                      type="number"
+                      id="quantity"
+                      min="1"
+                      max={product.availableQuantity}
+                      value={quantity}
+                      onChange={handleQuantityChange}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                   </div>
+
+                  {/* Shipping Address Inputs */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {["street", "city", "state", "zip", "country"].map((field) => (
+                      <div key={field} className="col-span-1">
+                        <label htmlFor={field} className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                          {field}
+                        </label>
+                        <input
+                          type="text"
+                          name={field}
+                          id={field}
+                          value={shippingAddress[field]}
+                          onChange={handleAddressChange}
+                          className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder={`Enter ${field}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Total Amount */}
+                  <div className="flex items-center justify-between py-4 border-t border-gray-100">
+                    <span className="text-gray-600 text-lg">Total Amount:</span>
+                    <span className="text-2xl font-bold text-blue-600">
+                      {formatCurrency(product.pricePerUnit * quantity)}
+                    </span>
+                  </div>
+
+                  <Button
+                    onClick={handleOrder}
+                    disabled={processing || !user}
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300 rounded-xl py-6 text-lg"
+                  >
+                    {processing ? (
+                      <>
+                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                        Processing...
+                      </>
+                    ) : !user ? (
+                      <>
+                        <ShoppingCart className="h-5 w-5 mr-2" />
+                        Login to Order
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="h-5 w-5 mr-2" />
+                        Place Order
+                      </>
+                    )}
+                  </Button>
                 </CardContent>
               </Card>
 
-              {/* Exporter Information */}
+              {/* Exporter Info */}
               {product.exporter && (
                 <Card className="bg-white shadow-sm rounded-3xl border-0">
                   <CardContent className="p-8">
@@ -238,7 +298,6 @@ const ProductDetails = () => {
                           <p className="text-xl font-semibold">{product.exporter.companyName}</p>
                         </div>
                       </div>
-
                       <div className="flex items-center text-gray-600">
                         <User className="h-6 w-6 mr-4" />
                         <div>
@@ -246,7 +305,6 @@ const ProductDetails = () => {
                           <p className="text-xl font-semibold">{product.exporter.contactPerson}</p>
                         </div>
                       </div>
-
                       <div className="flex items-center text-gray-600">
                         <Truck className="h-6 w-6 mr-4" />
                         <div>
@@ -254,7 +312,6 @@ const ProductDetails = () => {
                           <p className="text-xl font-semibold">{product.exporter.shippingTerms}</p>
                         </div>
                       </div>
-
                       <div className="flex items-center text-gray-600">
                         <Calendar className="h-6 w-6 mr-4" />
                         <div>
