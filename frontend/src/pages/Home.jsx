@@ -1,6 +1,7 @@
 import React from 'react'
 import { ArrowRight, Package, ShoppingCart, Truck, Globe, Check, Shield, Star, Users, TrendingUp, Heart } from "lucide-react"
 import { Link } from 'react-router-dom'
+import { useAuth } from '@/contexts/AuthContext'
 
 const Button = ({ children, className = "", size, variant, asChild, ...props }) => {
   const baseClasses = "inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
@@ -22,6 +23,7 @@ const Button = ({ children, className = "", size, variant, asChild, ...props }) 
 }
 
 const Home = () => {
+  const { user } = useAuth();
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
@@ -43,9 +45,11 @@ const Home = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              {!user && (
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold" asChild>
                 <Link to="/register">Get Started Free</Link>
               </Button>
+              )}
               <Button size="lg" variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50" asChild>
                 <Link to="/products">View Products</Link>
               </Button>
@@ -94,10 +98,12 @@ const Home = () => {
                   </div>
                 </div>
                 
+                {!user && (
                 <Link to="/register" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium group">
                   Start selling now 
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                )}
               </div>
             </div>
 
@@ -127,10 +133,12 @@ const Home = () => {
                   </div>
                 </div>
                 
+                {!user && (
                 <Link to="/register" className="inline-flex items-center text-amber-600 hover:text-amber-700 font-medium group">
                   Start buying today 
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                )}
               </div>
             </div>
 
@@ -160,10 +168,12 @@ const Home = () => {
                   </div>
                 </div>
                 
+                {!user && (
                 <Link to="/register" className="inline-flex items-center text-green-600 hover:text-green-700 font-medium group">
                   Join our network 
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                )}
               </div>
             </div>
           </div>
@@ -236,12 +246,14 @@ const Home = () => {
             Join XportConnect to expand globally. <br></br>
             It's free to get started, and you can be trading within days.
           </p>
-          
+        
+          {!user && (
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-50 font-semibold" asChild>
               <Link to="/register">Create Free Account</Link>
             </Button>
           </div>
+          )}
           
           <p className="text-sm text-blue-200 mt-6">
             No credit card required • Free forever plan available • Cancel anytime

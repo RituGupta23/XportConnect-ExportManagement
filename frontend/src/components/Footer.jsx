@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
 import { Globe, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
+import { useAuth } from "@/contexts/AuthContext";
 
 const Footer = () => {
+  const { user } = useAuth();
   return (
     <footer className="bg-white border-t border-gray-100">
       <div className="container mx-auto px-6 md:px-8 py-12">
@@ -54,11 +56,13 @@ const Footer = () => {
                   Products
                 </Link>
               </li>
+              {!user && (
               <li>
                 <Link to="/register" className="text-gray-600 hover:text-blue-600 transition-colors duration-200 text-sm">
                   Register
                 </Link>
               </li>
+              )}
             </ul>
           </div>
 
