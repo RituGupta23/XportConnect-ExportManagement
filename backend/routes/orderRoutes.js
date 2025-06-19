@@ -26,6 +26,6 @@ router.patch('/:orderId/assign-shipper', protect, authorize('exporter'), assignS
 // Exporter order updates status
 router.patch('/:orderId/status', protect, authorize('exporter'), updateOrderStatus);
 
-// Shipper views assigned orders
+// Exporter views avaiable shippers
 router.get('/shipper', protect, authorize('exporter'), getAllShippers);
 module.exports = router;
