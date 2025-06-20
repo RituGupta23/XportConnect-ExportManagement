@@ -55,7 +55,7 @@ const ExporterOrders = () => {
 
   const fetchShippers = async () => {
     try {
-      const response = await api.get("/orders/shipper");
+      const response = await api.get("/orders/all-shippers");
       setShippers(response.data.data);
     } catch (error) {
       console.error("Failed to load shippers:", error);

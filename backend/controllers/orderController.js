@@ -49,6 +49,17 @@ const getOrdersForExporter = async (req, res) => {
 };
 
 
+const getOrdersForShipper = async (req, res) => {
+  try {
+    const shipperId = req.user._id;
+    const orders = await Order.find({ shipper: shipperId }).populate('buyer exporter').populate('products.product');
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch orders for shipper' });
+  }
+};
+
+
 const assignShipper = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -104,6 +115,7 @@ module.exports = {
     createOrder,
     getOrdersForBuyer,
     getOrdersForExporter,
+    getOrdersForShipper,
     assignShipper,
     updateOrderStatus,
     getAllShippers

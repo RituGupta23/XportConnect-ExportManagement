@@ -47,7 +47,7 @@ const Dashboard = () => {
             completedOrders,
           }
         } else if (user.role === "shipper") {
-          const ordersRes = await api.get("/shipping/assigned-orders")
+          const ordersRes = await api.get("/orders/shipper");
 
           const pendingOrders = ordersRes.data.filter((order) => order.trackingInfo.status !== "Delivered").length
           const completedOrders = ordersRes.data.filter((order) => order.trackingInfo.status === "delivered").length
