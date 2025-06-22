@@ -22,6 +22,8 @@ import ShipperOrders from "./pages/dashboard/shipper/Orders"
 import Profile from "./pages/dashboard/Profile"
 import CreateProduct from "./pages/dashboard/exporter/CreateProduct"
 import EditProduct from "./pages/dashboard/exporter/EditProduct"
+import Settings from "./pages/dashboard/Settings"
+import Help from "./pages/dashboard/Help"
 
 // Route Guards
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -62,6 +64,8 @@ function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="help" element={<Help />} />
 
         {/* Exporter Routes */}
         <Route

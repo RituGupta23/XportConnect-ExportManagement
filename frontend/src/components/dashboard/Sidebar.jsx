@@ -59,7 +59,7 @@ const Sidebar = () => {
     {
       label: "Help & Support",
       icon: <HelpCircle className="h-5 w-5" />,
-      href: "/help",
+      href: "/dashboard/help",
       show: true,
     },
   ]
