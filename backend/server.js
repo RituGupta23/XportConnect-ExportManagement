@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes.js');
 const orderRoutes = require('./routes/orderRoutes.js');
 const shippingRoutes = require('./routes/shippingRoutes.js');
+const chatbotRoutes = require('./routes/chatbotRoutes.js');
 const cors = require('cors');
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/shipping', shippingRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 connectDB();
 

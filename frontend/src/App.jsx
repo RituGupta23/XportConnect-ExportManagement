@@ -24,6 +24,7 @@ import CreateProduct from "./pages/dashboard/exporter/CreateProduct"
 import EditProduct from "./pages/dashboard/exporter/EditProduct"
 import Settings from "./pages/dashboard/Settings"
 import Help from "./pages/dashboard/Help"
+import Chatbot from "./components/Chatbot"
 
 // Route Guards
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -42,6 +43,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 function App() {
   return (
+    <>
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<MainLayout />}>
@@ -125,6 +127,8 @@ function App() {
       {/* Catch all - 404 */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
+    <Chatbot />
+    </>
   )
 }
 
