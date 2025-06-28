@@ -15,10 +15,10 @@ const app = express();
 app.use(express.json()); // For parsing JSON data
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URI], // Replace with your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  credentials: true,
+  origin: process.env.FRONTEND_URI,
+  credentials: true
 }));
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
